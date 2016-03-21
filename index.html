@@ -3,22 +3,37 @@
 
 <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    
+    <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="css/style.css">
     
-    <title>blinkr! | a looping slideshow of images from Flickr</title>
+    <title>Blinkr! | A looping slideshow of images from Flickr</title>
 </head>
 
 <body>
     <main>
-        <div id="dashboard">
-            <div class="logo"></div>
-            <div class="search"><input placeholder="Flickr photos search"></div>
+        <div class="content-wrapper">
+            <div id="dashboard">
+                <div class="logo"></div>
+                <div class="search"><input placeholder="Flickr photos search"></div>
+            </div>
+            <div id="flickr-img"></div>
         </div>
-        <div id="flickr-img"></div>
     </main>
 
     <footer>
-
+        <div class="content-wrapper">
+            <ul>
+                <li>About</li>
+                <li>Privacy</li>
+                <li>Terms</li>
+                <li>Help</li>
+            </ul>
+            
+            <div id="copyright">
+                <!--div class="logo s"></div--> Blinkr! &copy; <span class="year">2015</span> All Rights Reserved
+            </div>
+        </div>
     </footer>
 
     <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
