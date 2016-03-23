@@ -12,19 +12,33 @@ var main = function () {
             
             // build request URL
             if (tagSearchTerm !== '') {
-                flickrReq = flickrReqBase + '?tags=' + tagSearchTerm + '&format=json&jsoncallback=?';
+                // darken background
+                $('body').addClass('result');
+                $('body').css('background-image', 'url(img/loader_128.gif)');
                 
                 // request images
+                flickrReq = flickrReqBase + '?tags=' + tagSearchTerm + '&format=json&jsoncallback=?';
                 $.getJSON(flickrReq, function (flickrRes) {
-                    $('#flickr-img').empty();
+                    
+                    // remove
+                    console.log(flickrRes.items);
+                    
                     flickrRes.items.forEach(function (photo) {
-                        var photoURL = photo.media.m;
-                        var $photo = $('<img>').hide();
-                        $photo.attr('src', photoURL);
-
-                        $('#flickr-img').append($photo);
-                        $photo.fadeIn('slow');
+                       $('body').css('background-image', 'url(' + photo.media.m + ')'); 
                     });
+                    
+                    // redisplay all images at once
+//                    $('#flickr-img').empty();
+//                    flickrRes.items.forEach(function (photo) {
+//                        var photoURL = photo.media.m;
+//                        var $photo = $('<img>').hide();
+//                        $photo.attr('src', photoURL);
+//
+//                        $('#flickr-img').append($photo);
+//                        $photo.fadeIn('slow');
+//                    });
+                    
+                    
                 });
             }
         }
