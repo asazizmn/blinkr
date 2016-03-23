@@ -15,6 +15,7 @@ var main = function () {
             if (tagSearchTerm !== '') {
                 // darken background & show loader
                 $('body').addClass('result');
+                $('body').css('background-size', 'initial');
                 $('body').css('background-image', 'url(img/loader_128.gif)');
                 
                 // request images
@@ -22,9 +23,14 @@ var main = function () {
                 $.getJSON(flickrReq, function (flickrRes) {
                     var i = 0;
                     var showImage = function (index) {
-                        $('body').css('background-image', 'url(' + flickrRes.items[index].media.m + ')');
+                        var mURL = flickrRes.items[index].media.m;
+                        var bURL = mURL.replace("_m.", "_b.");
+                        
+                        $('body').css('background-size', 'cover');
+                        $('body').css('background-image', 'url(' + bURL + ')');
                     };
 
+                    
                     clearInterval(intervalHandle);
                     intervalHandle = setInterval(function () { 
                         showImage(i++);
