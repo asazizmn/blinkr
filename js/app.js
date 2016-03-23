@@ -15,24 +15,33 @@ var main = function () {
             if (tagSearchTerm !== '') {
                 // darken background & show loader
                 $('body').addClass('result');
+                
+                $('body').css('transition', 'none');
                 $('body').css('background-size', 'initial');
                 $('body').css('background-image', 'url(img/loader_128.gif)');
                 
                 // request images
                 flickrReq = flickrReqBase + '?tags=' + tagSearchTerm + '&format=json&jsoncallback=?';
                 $.getJSON(flickrReq, function (flickrRes) {
-                    var i = 0, isCover = false;
+                    var i = 0, isResult = false;
                     var showImage = function (index) {
-                        var mURL = flickrRes.items[index].media.m;
-                        var bURL = mURL.replace("_m.", "_b.");
                         
-                        if (!isCover) {
+                        // [ref: https://www.flickr.com/services/api/misc.urls.html]
+                        var mURL = flickrRes.items[index].media.m;
+                        var bURL = mURL.replace("_m.", "_b."); // 1024
+//                        var bURL = mURL.replace("_m.", "_z."); // 640
+                        
+                        if (!isResult) {
                             $('body').css('background-size', 'cover');
-                            isCover = true;
-                            // remove
-                            console.log('changed to cover');
+                            isResult = true;
                         }
+                        
                         $('body').css('background-image', 'url(' + bURL + ')');
+                        
+                        // only start transition from second image
+                        if (index === 1) {
+                            $('body').css('transition', 'background 300ms ease-in 500ms');
+                        }
                     };
 
                     
