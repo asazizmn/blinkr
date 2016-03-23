@@ -3,7 +3,8 @@ var main = function () {
     
     var $tagSearchField = $('#tag-search'), tagSearchTerm;
     var flickrReqBase = 'http://api.flickr.com/services/feeds/photos_public.gne', flickrReq;
-    
+    var intervalHandle; // used to check if setInterval is active
+        
     $tagSearchField.on('keypress', function (event) {
         
         // check for enter key
@@ -12,20 +13,26 @@ var main = function () {
             
             // build request URL
             if (tagSearchTerm !== '') {
-                // darken background
+                // darken background & show loader
                 $('body').addClass('result');
                 $('body').css('background-image', 'url(img/loader_128.gif)');
                 
                 // request images
                 flickrReq = flickrReqBase + '?tags=' + tagSearchTerm + '&format=json&jsoncallback=?';
                 $.getJSON(flickrReq, function (flickrRes) {
+                    var i = 0;
+                    var showImage = function (index) {
+                        $('body').css('background-image', 'url(' + flickrRes.items[index].media.m + ')');
+                    };
+
+                    clearInterval(intervalHandle);
+                    intervalHandle = setInterval(function () { 
+                        showImage(i++);
+                        if (i >= flickrRes.items.length) {
+                            i = 0;
+                        }
+                    }, 3000);
                     
-                    // remove
-                    console.log(flickrRes.items);
-                    
-                    flickrRes.items.forEach(function (photo) {
-                       $('body').css('background-image', 'url(' + photo.media.m + ')'); 
-                    });
                     
                     // redisplay all images at once
 //                    $('#flickr-img').empty();
@@ -37,8 +44,6 @@ var main = function () {
 //                        $('#flickr-img').append($photo);
 //                        $photo.fadeIn('slow');
 //                    });
-                    
-                    
                 });
             }
         }
