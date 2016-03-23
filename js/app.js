@@ -21,12 +21,17 @@ var main = function () {
                 // request images
                 flickrReq = flickrReqBase + '?tags=' + tagSearchTerm + '&format=json&jsoncallback=?';
                 $.getJSON(flickrReq, function (flickrRes) {
-                    var i = 0;
+                    var i = 0, isCover = false;
                     var showImage = function (index) {
                         var mURL = flickrRes.items[index].media.m;
                         var bURL = mURL.replace("_m.", "_b.");
                         
-                        $('body').css('background-size', 'cover');
+                        if (!isCover) {
+                            $('body').css('background-size', 'cover');
+                            isCover = true;
+                            // remove
+                            console.log('changed to cover');
+                        }
                         $('body').css('background-image', 'url(' + bURL + ')');
                     };
 
